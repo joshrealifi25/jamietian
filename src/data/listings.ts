@@ -1,0 +1,55 @@
+import { Listing } from "@/types/property";
+
+export const listings: Listing[] = [
+  {
+    slug: "1830-westholme-ave",
+    address: "1830 Westholme Avenue",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90025",
+    price: 1049000,
+    priceFormatted: "$1,049,000",
+    beds: 2,
+    baths: 2.5,
+    sqft: 1590,
+    image: "/images/properties/1830-westholme.jpg",
+    status: "active",
+    neighborhood: "Westwood",
+    description:
+      "A refined residence in the heart of Westwood, offering modern finishes and an elevated lifestyle.",
+  },
+  {
+    slug: "1155-s-grand-ave",
+    address: "1155 S Grand Avenue",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90015",
+    price: 499000,
+    priceFormatted: "$499,000",
+    beds: 1,
+    baths: 1,
+    sqft: 760,
+    image: "/images/properties/1155-s-grand.jpg",
+    status: "active",
+    neighborhood: "Downtown LA",
+    description:
+      "A sleek downtown residence with panoramic city views and walkable access to LA's cultural core.",
+  },
+  {
+    slug: "1750-camino-palmero",
+    address: "1750 Camino Palmero Street",
+    city: "Los Angeles",
+    state: "CA",
+    zip: "90046",
+    price: 2600,
+    priceFormatted: "$2,600/month",
+    beds: 1,
+    baths: 1,
+    sqft: 772,
+    image: "/images/properties/1750-camino-palmero.jpg",
+    status: "active",
+    neighborhood: "Hollywood",
+    description:
+      "A charming Hollywood rental in a prime location, steps from iconic restaurants and nightlife.",
+  },
+];

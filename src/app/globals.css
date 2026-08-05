@@ -1,0 +1,491 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-inter), "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), "Georgia", "Times New Roman", serif;
+  --font-heading: var(--font-sans);
+  --font-mono: ui-monospace, monospace;
+
+  /* Fame Estate-inspired palette - adapted for RealiFi */
+  --color-rf-black: #000000;
+  --color-rf-white: #ffffff;
+  --color-rf-gray: #f1f1f1;
+  --color-rf-accent: #1abfd1;
+  --color-rf-accent-soft: #3dcce0;
+  --color-rf-accent-dark: #0e9dae;
+
+  /* Semantic aliases */
+  --color-rf-page: #000000;
+  --color-rf-surface: #0a0a0a;
+  --color-rf-surface-alt: #111111;
+  --color-rf-text: #ffffff;
+  --color-rf-text-dark: #000000;
+  --color-rf-heading: #ffffff;
+  --color-rf-heading-dark: #000000;
+  --color-rf-muted: #888888;
+  --color-rf-border: #2a2a2a;
+  --color-rf-overlay: rgba(0, 0, 0, 0.2);
+  --color-rf-overlay-heavy: rgba(0, 0, 0, 0.6);
+
+  /* shadcn overrides */
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+}
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #1abfd1;
+  --primary-foreground: #000000;
+  --secondary: #f1f1f1;
+  --secondary-foreground: #000000;
+  --muted: #1a1a1a;
+  --muted-foreground: #666666;
+  --accent: #1abfd1;
+  --accent-foreground: #000000;
+  --destructive: #ef4444;
+  --border: #2a2a2a;
+  --input: #2a2a2a;
+  --ring: #1abfd1;
+  --radius: 0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-rf-page text-rf-text;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background-color: rgba(26, 191, 209, 0.3);
+    color: #ffffff;
+  }
+}
+
+@layer components {
+  /*
+   * Typography  - Fame Estate pattern:
+   * Headlines: Sans-serif, VERY bold (800), uppercase,
+   * tight negative letter-spacing, compressed line-height
+   */
+
+  /* Hero / massive display  - 48-56px, weight 800, uppercase */
+  .rf-display {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.048em;
+    line-height: 0.83;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    text-transform: uppercase;
+  }
+
+  /* Mega CTA  - 144px equivalent, weight 800, uppercase */
+  .rf-display-mega {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.048em;
+    line-height: 0.83;
+    font-size: clamp(3rem, 10vw, 9rem);
+    text-transform: uppercase;
+  }
+
+  .rf-display-sm {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.048em;
+    line-height: 0.83;
+    font-size: clamp(1.5rem, 3vw, 3rem);
+    text-transform: uppercase;
+  }
+
+  /* H2  - sans-serif bold */
+  .rf-h2 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.048em;
+    line-height: 0.83;
+    font-size: clamp(1.5rem, 3vw, 3rem);
+    text-transform: uppercase;
+  }
+
+  /* H3  - serif accent (TimesNewRoman equivalent) */
+  .rf-h3 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.032em;
+    line-height: 1;
+    font-size: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  /* Eyebrow / label  - 13px, bold, uppercase */
+  .rf-eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.032em;
+    font-size: 0.8125rem;
+    line-height: 1.077;
+  }
+
+  /* Body text  - readable for paragraphs while keeping the bold, tight RF feel */
+  .rf-body {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    line-height: 1.5;
+    font-size: 0.875rem;
+    letter-spacing: -0.02em;
+  }
+
+  /* Label text  - fame estate 13px bold uppercase for short labels/captions */
+  .rf-label {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 1.077;
+    font-size: 0.8125rem;
+    letter-spacing: -0.032em;
+    text-transform: uppercase;
+  }
+
+  /* Body serif  - for longer descriptive passages */
+  .rf-body-serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.15;
+    font-size: clamp(1rem, 1.5vw + 0.25rem, 2.25rem);
+    letter-spacing: -0.032em;
+  }
+
+  /* Small body  - regular weight, non-uppercase for readable passages */
+  .rf-body-sm {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    line-height: 1.4;
+    font-size: 0.875rem;
+    letter-spacing: -0.02em;
+  }
+
+  /* Section spacing  - edge-to-edge with 8px insets like Fame */
+  .rf-section {
+    @apply px-2 md:px-2;
+    @apply py-0;
+    position: relative;
+  }
+
+  .rf-section-sm {
+    @apply px-6 md:px-12 lg:px-20;
+    @apply py-16 md:py-24;
+    position: relative;
+  }
+
+  .rf-section-padded {
+    @apply px-6 md:px-12 lg:px-20 xl:px-32;
+    @apply py-20 md:py-28 lg:py-36;
+  }
+
+  /* Button  - Fame Estate pattern: no bg, no border, text only with arrow */
+  .rf-btn-primary {
+    @apply inline-flex items-center gap-2;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: -0.032em;
+    text-transform: uppercase;
+    line-height: 1.077;
+    color: currentColor;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  .rf-btn-primary:hover {
+    transform: translateX(4px);
+  }
+
+  .rf-btn-ghost {
+    @apply inline-flex items-center gap-2;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: -0.032em;
+    text-transform: uppercase;
+    line-height: 1.077;
+    color: currentColor;
+    background: none;
+    border: 1px solid currentColor;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  .rf-btn-ghost:hover {
+    background: var(--color-rf-accent);
+    border-color: var(--color-rf-accent);
+    color: #000;
+  }
+
+  .rf-btn-text {
+    @apply inline-flex items-center gap-2;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: -0.032em;
+    text-transform: uppercase;
+    line-height: 1.077;
+    color: var(--color-rf-accent);
+    transition: transform 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  .rf-btn-text:hover {
+    transform: translateX(4px);
+  }
+
+  /* ── Header / nav transitions (Fame Estate easing) ── */
+  .rf-header-bg {
+    transition: background-color 0.6s cubic-bezier(0.83, 0, 0.17, 1),
+                backdrop-filter 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  .rf-nav-link {
+    transition: color 0.4s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  .rf-nav-cta {
+    transition: color 0.4s cubic-bezier(0.83, 0, 0.17, 1),
+                transform 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  /* Hamburger line shared base */
+  .rf-burger-line {
+    display: block;
+    height: 1px;
+    background: #ffffff;
+    transform-origin: right;
+    transition: transform 0.5s cubic-bezier(0.83, 0, 0.17, 1),
+                width 0.5s cubic-bezier(0.83, 0, 0.17, 1),
+                opacity 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  /* Mobile overlay numbered index */
+  .rf-mobile-index {
+    letter-spacing: -0.032em;
+  }
+
+  /* Mobile overlay link label */
+  .rf-mobile-label {
+    letter-spacing: -0.032em;
+    transition: color 0.4s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  /* Mobile overlay contact links */
+  .rf-mobile-contact {
+    transition: color 0.3s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  /* Divider */
+  .rf-divider {
+    @apply w-full h-px bg-rf-border;
+  }
+
+  .rf-divider-accent {
+    width: 48px;
+    height: 1px;
+    background: var(--color-rf-accent);
+  }
+
+  /* Fame Estate fixed info card pattern */
+  .rf-info-card {
+    position: fixed;
+    width: 272px;
+    padding: 8px;
+    background: #ffffff;
+    color: #000000;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Line-by-line text reveal animation */
+  .rf-line-reveal {
+    overflow: hidden;
+  }
+  .rf-line-reveal .line-text {
+    display: inline-block;
+    transform: translateY(100%);
+    transition: transform 0.8s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  .rf-line-reveal.revealed .line-text {
+    transform: translateY(0);
+  }
+
+  /* Block section label  - absolute positioned section name */
+  .rf-block-name {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: -0.032em;
+    text-transform: uppercase;
+    line-height: 1.077;
+    position: absolute;
+    top: 44px;
+    left: 24px;
+  }
+  @media (min-width: 768px) {
+    .rf-block-name {
+      left: 48px;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-overlay {
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0px,
+      rgba(0, 0, 0, 0.2)
+    );
+  }
+
+  .gradient-overlay-hero {
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0.2) 50%,
+      rgba(0, 0, 0, 0.15) 100%
+    );
+  }
+
+  .gradient-overlay-bottom {
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+
+  .gradient-overlay-top {
+    background: linear-gradient(
+      to top,
+      transparent 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+
+  /* Fame Estate cubic-bezier easing */
+  .ease-fame {
+    transition-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  /* Staggered animation delays */
+  .stagger-1 { transition-delay: 0s; }
+  .stagger-2 { transition-delay: 0.025s; }
+  .stagger-3 { transition-delay: 0.05s; }
+  .stagger-4 { transition-delay: 0.075s; }
+  .stagger-5 { transition-delay: 0.1s; }
+  .stagger-6 { transition-delay: 0.125s; }
+  .stagger-7 { transition-delay: 0.15s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .rf-line-reveal .line-text {
+    transform: none;
+  }
+}
+
+/* ── Sold map (Leaflet) ─────────────────────────────────────── */
+.rf-map-pin {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(34, 195, 213, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.rf-map-pin span {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #22c3d5;
+  box-shadow: 0 0 8px rgba(34, 195, 213, 0.8);
+}
+.rf-map-pin:hover {
+  transform: scale(1.4);
+}
+
+.rf-map-tooltip {
+  background: #0b1114 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+}
+.rf-map-tooltip::before {
+  border-top-color: #0b1114 !important;
+}
+
+.leaflet-container a.leaflet-attribution-flag {
+  display: none !important;
+}
+.leaflet-control-attribution {
+  background: rgba(11, 17, 20, 0.8) !important;
+  color: rgba(255, 255, 255, 0.35) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.5) !important;
+}

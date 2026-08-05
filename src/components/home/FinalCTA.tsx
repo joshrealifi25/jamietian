@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { SITE } from "@/lib/constants";
 import { LineReveal } from "@/components/motion/LineReveal";
 
@@ -12,34 +12,11 @@ export function FinalCTA() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const bgScale = useTransform(scrollYProgress, [0, 0.5], [1.08, 1]);
-  const glowOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0, 0.15]);
-
   return (
     <section
       ref={ref}
       className="relative bg-rf-accent text-rf-text-dark flex flex-col justify-center overflow-hidden"
     >
-      {/* Scroll-linked radial glow */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: glowOpacity,
-          background: "radial-gradient(circle at 50% 50%, rgba(0,0,0,0.4) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* Scale-on-scroll background */}
-      <motion.div
-        className="absolute inset-0 bg-rf-accent"
-        style={{ scale: bgScale }}
-      />
-
       <motion.span
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : { opacity: 0 }}
@@ -49,7 +26,7 @@ export function FinalCTA() {
         CONTACT
       </motion.span>
 
-      <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-20 md:py-44 flex flex-col items-center text-center relative z-10">
+      <div className="px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 py-20 md:py-36 flex flex-col items-center text-center relative z-10">
         <h2 className="rf-display-mega text-rf-text-dark max-w-6xl">
           <LineReveal delay={0.2} className="block">
             <span className="text-rf-text-dark">WHAT IS YOUR</span>

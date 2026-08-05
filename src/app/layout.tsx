@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { AGENT } from "@/config/agent";
 import "./globals.css";
 
@@ -126,9 +125,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
-        <SmoothScroll>{children}</SmoothScroll>
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

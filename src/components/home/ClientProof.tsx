@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { testimonials } from "@/data/testimonials";
 
 const fameEase = [0.83, 0, 0.17, 1] as const;
@@ -10,13 +10,6 @@ export function ClientProof() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const quoteMarkX = useTransform(scrollYProgress, [0, 0.5], [-40, 0]);
-  const quoteMarkOpacity = useTransform(scrollYProgress, [0, 0.3], [0, 0.2]);
 
   const next = useCallback(() => {
     setIndex((prev) => (prev + 1) % testimonials.length);
@@ -49,7 +42,7 @@ export function ClientProof() {
   return (
     <section
       ref={sectionRef}
-      className="rf-section bg-black text-white py-20 md:py-48 relative overflow-hidden"
+      className="rf-section bg-black text-white py-20 md:py-32 relative overflow-hidden"
     >
       <motion.span
         className="rf-block-name text-white"
@@ -63,14 +56,13 @@ export function ClientProof() {
 
       <div className="max-w-5xl mx-auto px-6 md:px-12 flex flex-col items-start">
         <div className="min-h-[220px] sm:min-h-[280px] md:min-h-[320px] flex items-center w-full relative">
-          {/* Scroll-linked quote mark */}
-          <motion.span
-            className="block text-rf-accent font-serif text-[120px] md:text-[180px] leading-none select-none absolute -top-8 -left-4 md:-left-8"
-            style={{ x: quoteMarkX, opacity: quoteMarkOpacity }}
+          {/* Decorative quote mark */}
+          <span
+            className="block text-rf-accent font-serif text-[120px] md:text-[180px] leading-none select-none absolute -top-8 -left-4 md:-left-8 opacity-20"
             aria-hidden="true"
           >
             &ldquo;
-          </motion.span>
+          </span>
 
           <AnimatePresence mode="wait">
             <motion.blockquote

@@ -3,8 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LineReveal } from "@/components/motion/LineReveal";
-import { HorizontalReveal } from "@/components/motion/HorizontalReveal";
-import { TiltCard } from "@/components/motion/TiltCard";
+import { Reveal } from "@/components/motion/Reveal";
 import type { SoldProperty } from "@/types/property";
 
 const formatPrice = (price: number) =>
@@ -54,28 +53,22 @@ export function SoldMapSection({ properties }: { properties: SoldProperty[] }) {
     <div className="bg-rf-page">
       <section className="rf-section py-20 md:py-32">
         <div className="px-6 md:px-12">
-          <HorizontalReveal from="left" distance={100}>
-            <p className="rf-eyebrow text-rf-accent mb-4">SOLD PROPERTIES</p>
-            <h2 className="rf-display text-white mb-16 md:mb-24 max-w-3xl">
-              <LineReveal delay={0.1}>PROVEN</LineReveal>
-              <LineReveal delay={0.2}>RESULTS</LineReveal>
-            </h2>
-          </HorizontalReveal>
+          <p className="rf-eyebrow text-rf-accent mb-4">SOLD PROPERTIES</p>
+          <h2 className="rf-display text-white mb-16 md:mb-24 max-w-3xl">
+            <LineReveal delay={0.1}>PROVEN</LineReveal>
+            <LineReveal delay={0.2}>RESULTS</LineReveal>
+          </h2>
 
           {/* Sold grid — mirrors the featured listings grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {featured.map((property, i) => (
-              <TiltCard
-                key={property.slug}
-                from={i % 2 === 0 ? "left" : "right"}
-                tilt={8}
-              >
+              <Reveal key={property.slug} delay={(i % 3) * 0.08}>
                 <SoldCard property={property} />
-              </TiltCard>
+              </Reveal>
             ))}
           </div>
 
-          <HorizontalReveal from="right" distance={60}>
+          <Reveal>
             <div className="mt-16 md:mt-20">
               <Link
                 href="/properties/sold"
@@ -84,7 +77,7 @@ export function SoldMapSection({ properties }: { properties: SoldProperty[] }) {
                 View All Sold &rarr;
               </Link>
             </div>
-          </HorizontalReveal>
+          </Reveal>
         </div>
       </section>
     </div>

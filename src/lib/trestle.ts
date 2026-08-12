@@ -51,6 +51,7 @@ interface TrestleMedia {
   MediaURL?: string;
   Order?: number;
   MediaCategory?: string;
+  MediaType?: string;
 }
 
 interface TrestleProperty {
@@ -72,6 +73,7 @@ interface TrestleProperty {
   BedroomsTotal?: number;
   BathroomsFull?: number;
   BathroomsHalf?: number;
+  BathroomsThreeQuarter?: number;
   BathroomsTotalInteger?: number;
   LivingArea?: number;
   PublicRemarks?: string;
@@ -209,6 +211,7 @@ const SELECT_FIELDS = [
   "BedroomsTotal",
   "BathroomsFull",
   "BathroomsHalf",
+  "BathroomsThreeQuarter",
   "BathroomsTotalInteger",
   "LivingArea",
   "PublicRemarks",
@@ -230,7 +233,7 @@ const SELECT_FIELDS = [
 ].join(",");
 
 const mediaExpand = (top: number) =>
-  `Media($select=MediaURL,Order,MediaCategory;$orderby=Order;$top=${top})`;
+  `Media($select=MediaURL,Order,MediaCategory,MediaType;$orderby=Order;$top=${top})`;
 
 function officeFilter(field: string): string | null {
   if (OFFICE_IDS.length === 0) return null;
@@ -271,16 +274,35 @@ function buildAddress(p: TrestleProperty): string {
 
 function sortedPhotos(p: TrestleProperty): string[] {
   return (p.Media ?? [])
-    .filter((m) => m.MediaURL && (m.MediaCategory ?? "Photo") === "Photo")
-    .sort((a, b) => (a.Order ?? 0) - (b.Order ?? 0))
-    .map((m) => m.MediaURL!) ;
+    // MediaCategory is null across this CRMLS feed, so filtering on it let
+    // PDFs (disclosures, flyers) through as "photos". Filter on the real
+    // media type instead, and break Order ties deterministically so a
+    // document can never win the hero slot by feed order.
+    .filter(
+      (m) =>
+        m.MediaURL &&
+        (/jpe?g|png|webp|gif/i.test(m.MediaType ?? "") ||
+          /\/PHOTO-/i.test(m.MediaURL)),
+    )
+    .sort(
+      (a, b) =>
+        (a.Order ?? 0) - (b.Order ?? 0) ||
+        (a.MediaURL ?? "").localeCompare(b.MediaURL ?? ""),
+    )
+    .map((m) => m.MediaURL!);
 }
 
 function baths(p: TrestleProperty): number {
+  // Match the MLS-displayed total. Three-quarter baths are common in CRMLS
+  // and full+half alone undercounts them — a 5-bath home was advertising as
+  // "3 baths" (2 full + 1 three-quarter + 2 half).
+  if (p.BathroomsTotalInteger != null) return p.BathroomsTotalInteger;
   if (p.BathroomsFull != null) {
-    return p.BathroomsFull + (p.BathroomsHalf ?? 0) * 0.5;
+    return (
+      p.BathroomsFull + (p.BathroomsThreeQuarter ?? 0) + (p.BathroomsHalf ?? 0) * 0.5
+    );
   }
-  return p.BathroomsTotalInteger ?? 0;
+  return 0;
 }
 
 function isLease(p: TrestleProperty): boolean {
